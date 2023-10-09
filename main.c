@@ -12,7 +12,7 @@ void initPlayer(struct player plyr);
 void display(struct player plyr);
 
 int main() {
-    struct player plyr = {malloc((W*H)*sizeof(char))};
+    struct player plyr = {malloc((W*H)*sizeof(char)), malloc((W*H)*sizeof(char))};
 	initPlayer(plyr);
     display(plyr);
 }
@@ -28,7 +28,7 @@ void initPlayer(struct player plyr){
 //Displays the turn screen for a player
 void display(struct player plyr){
 	//Header
-	printf("    ");
+	printf("`   ");
 	for(int i = 0; i < W; i++){
     	if(i < 8) printf("%d  ", i + 1);
         else printf("%d ", i + 1);
@@ -38,11 +38,12 @@ void display(struct player plyr){
     //Displays Both Boards
     for (int i = 0; i < H; i++) {
     	printf("%c | ", 'a'+i);
-    	for (int j = 0; j < W; j++){
+    	for (int j = 0; j < W; j++)
             printf("%c  ", plyr.board[i * H + j]);
-			printf("			");            
+        printf("`       ` ");
+        for (int j = 0; j < W; j++)
             printf("%c  ", plyr.shots[i * H + j]);
-        }
+        
             
         printf("\n\n");
     }
