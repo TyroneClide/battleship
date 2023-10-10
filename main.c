@@ -6,26 +6,41 @@ struct player {
 	char* targetGrid;
 };
 
+enum Boats {
+    carrier = 5,
+    battleship = 4,
+    destroyer = 3,
+    submarine = 3,
+    patrolBoat = 2
+};
+
+
 const int W = 10, H = 10;
 
 void initPlayer(struct player plyr);
 void display(struct player plyr);
 
 int main() {
+    
     struct player plyr = {malloc((W*H)*sizeof(char)), malloc((W*H)*sizeof(char))};
     struct player comp = {malloc((W*H)*sizeof(char)), malloc((W*H)*sizeof(char))};
     
 	initPlayer(plyr);
 	initPlayer(comp);
-    display(plyr);
+    //display(plyr);
 }
 
 //Initializes a player's oceanGrids
 void initPlayer(struct player plyr){
+    //Initilaze blank grids
 	for(int i = 0; i < W*H; i++){
     	plyr.oceanGrid[i] = ' ';
     	plyr.targetGrid[i] = ' ';
     }
+    
+    int unavailable[17];
+    int r = rand()%100 + 1;
+    for(i = 0; i < battleship
 }
 
 //Displays the turn screen for a player
@@ -58,3 +73,5 @@ void display(struct player plyr){
         printf("\n\n");
     }
 }
+
+void addShip(ship
