@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 struct player {
 	char* oceanGrid;
@@ -27,6 +28,8 @@ int main() {
     
 	initPlayer(plyr);
 	initPlayer(comp);
+	
+	addShip(battleship, plyr);
     //display(plyr);
 }
 
@@ -37,10 +40,6 @@ void initPlayer(struct player plyr){
     	plyr.oceanGrid[i] = ' ';
     	plyr.targetGrid[i] = ' ';
     }
-    
-    int unavailable[17];
-    int r = rand()%100 + 1;
-    for(i = 0; i < battleship
 }
 
 //Displays the turn screen for a player
@@ -74,4 +73,15 @@ void display(struct player plyr){
     }
 }
 
-void addShip(ship
+void addShip(enum Boats ship, struct player plyr){
+        srand ( time(NULL) );  
+        int x = rand()%10 + 1;
+        int y = rand()%10 + 1;
+        int dir = rand()&1 ? 1 : -1;
+        bool avail = true;
+        printf("%d : %d", x,y);
+        for(int i = 0; i < ship; i ++){
+            avail = plyr.oceanGrid[i*dir + r] == ' ';
+            if (!avail) break;
+        }
+}
