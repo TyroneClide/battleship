@@ -18,8 +18,11 @@ enum Boats {
 
 const int W = 10, H = 10;
 
+void addShip(enum Boats ship, struct player plyr);
 void initPlayer(struct player plyr);
 void display(struct player plyr);
+
+int convertCoords(int i, int j);
 
 int main() {
     
@@ -81,7 +84,11 @@ void addShip(enum Boats ship, struct player plyr){
         bool avail = true;
         printf("%d : %d", x,y);
         for(int i = 0; i < ship; i ++){
-            avail = plyr.oceanGrid[i*dir + r] == ' ';
+            avail = plyr.oceanGrid[convertCoords(x, y)] == ' ';
             if (!avail) break;
         }
+}
+
+int convertCoords(int i, int j){
+    return i*W + j;
 }
