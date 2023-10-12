@@ -9,10 +9,10 @@ struct player {
 
 enum Boats {
     carrier = 5,
-    battleship = 4,
-    destroyer = 3,
-    submarine = 3,
-    patrolBoat = 2
+    battleship = 5,
+    destroyer = 1,
+    submarine = 1,
+    patrolBoat = 1
 };
 
 
@@ -25,6 +25,7 @@ void display(struct player plyr);
 int convertCoords(int i, int j);
 
 int main() {
+    srand (time(NULL));  
     
     struct player plyr = {malloc((W*H)*sizeof(char)), malloc((W*H)*sizeof(char))};
     struct player comp = {malloc((W*H)*sizeof(char)), malloc((W*H)*sizeof(char))};
@@ -33,7 +34,12 @@ int main() {
 	initPlayer(comp);
 	
 	addShip(battleship, plyr);
-    //display(plyr);
+//	addShip(destroyer, plyr);
+ 	addShip(carrier, plyr);
+// 	addShip(submarine, plyr);
+// 	addShip(patrolBoat, plyr);
+	
+    display(plyr);
 }
 
 //Initializes a player's oceanGrids
@@ -70,22 +76,28 @@ void display(struct player plyr){
     	printf("%c | ", 'a'+i);
         for (int j = 0; j < W; j++)
             printf("%c  ", plyr.targetGrid[i * H + j]);
-        
-            
-        printf("\n\n");
+        printf("\n");
     }
 }
 
 void addShip(enum Boats ship, struct player plyr){
-        srand ( time(NULL) );  
-        int x = rand()%10 + 1;
-        int y = rand()%10 + 1;
-        int dir = rand()&1 ? 1 : -1;
+        int x = rand()%(11-ship);
+        int y = rand()%(11-ship);
+        int dir = rand()&1 ? 1 : 0;
         bool avail = true;
-        printf("%d : %d", x,y);
-        for(int i = 0; i < ship; i ++){
-            avail = plyr.oceanGrid[convertCoords(x, y)] == ' ';
-            if (!avail) break;
+
+        for(int i = 0; i < ship; i++){
+            printf("%d", avail);
+            avail = plyr.oceanGrid[convertCoords(x +(i*dir), y +i*((1-dir)))] == ' ' && avail;
+           printf("%d ", avail);
+
+        }
+        if(avail){
+            for(int i = 0; i < ship; i++){
+                plyr.oceanGrid[convertCoords(x +(i*dir), y+(i*(1-dir)))] = '0';
+            }
+        } else {
+            addShip(ship, plyr);
         }
 }
 
