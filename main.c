@@ -5,6 +5,7 @@
 struct player {
 	char* oceanGrid;
 	char* targetGrid;
+	int* ships[5];
 };
 
 enum Boats {
@@ -27,19 +28,15 @@ int convertCoords(int i, int j);
 int main() {
     srand (time(NULL));  
     
-    struct player plyr = {malloc((W*H)*sizeof(char)), malloc((W*H)*sizeof(char))};
-    struct player comp = {malloc((W*H)*sizeof(char)), malloc((W*H)*sizeof(char))};
+    struct player plyr = {malloc((W*H)*sizeof(char)), malloc((W*H)*sizeof(char)), malloc((carrier+battleship+destroyer+submarine+patrolBoat)*sizeof(char))};
+    struct player comp = {malloc((W*H)*sizeof(char)), malloc((W*H)*sizeof(char)), malloc((carrier+battleship+destroyer+submarine+patrolBoat)*sizeof(char))};
     
 	initPlayer(plyr);
 	initPlayer(comp);
 	
- 	addShip(battleship, plyr);
-	addShip(destroyer, plyr);
- 	addShip(carrier, plyr);
-  	addShip(submarine, plyr);
-  	addShip(patrolBoat, plyr);
-	
     display(plyr);
+    printf("\n\n\n");
+    display(comp);
 }
 
 //Initializes a player's oceanGrids
@@ -49,6 +46,11 @@ void initPlayer(struct player plyr){
     	plyr.oceanGrid[i] = ' ';
     	plyr.targetGrid[i] = ' ';
     }
+    addShip(battleship, plyr);
+	addShip(destroyer, plyr);
+ 	addShip(carrier, plyr);
+  	addShip(submarine, plyr);
+  	addShip(patrolBoat, plyr);
 }
 
 //Displays the turn screen for a player
@@ -97,6 +99,7 @@ void addShip(enum Boats ship, struct player plyr){
                 else if(i == 0 && dir == 1) c= '^';
                 else if(i == ship-1 && dir == 1) c= 'v';
                 plyr.oceanGrid[convertCoords(x +(i*dir), y+(i*(1-dir)))] = c;
+                
             }
         } else {
             addShip(ship, plyr);
