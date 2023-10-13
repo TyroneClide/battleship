@@ -54,16 +54,16 @@ void initPlayer(struct player plyr){
 //Displays the turn screen for a player
 void display(struct player plyr){
 	//Header
-	printf("`            Target Grid                               Ocean Grid\n");
+	printf("`        Target Grid                    Ocean Grid\n");
 	printf("`   ");
 	for(int i = 0; i < W; i++){
-    	if(i < 8) printf("%d  ", i + 1);
-        else printf("%d ", i + 1);
+    	if(i < 9) printf("%d ", i + 1);
+        else printf("%d", i + 1);
     }
-    printf("           ");
+    printf("          ");
     for(int i = 0; i < W; i++){
-    	if(i < 8) printf("%d  ", i + 1);
-        else printf("%d ", i + 1);
+    	if(i < 9) printf("%d ", i + 1);
+        else printf("%d", i + 1);
     }
     printf("\n\n");    
     
@@ -75,7 +75,7 @@ void display(struct player plyr){
         printf("      ");
     	printf("%c | ", 'a'+i);
         for (int j = 0; j < W; j++)
-            printf("%c  ", plyr.targetGrid[i * H + j]);
+            printf("%c ", plyr.targetGrid[i * H + j]);
         printf("\n");
     }
 }
