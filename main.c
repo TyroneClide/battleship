@@ -9,10 +9,10 @@ struct player {
 
 enum Boats {
     carrier = 5,
-    battleship = 5,
-    destroyer = 1,
-    submarine = 1,
-    patrolBoat = 1
+    battleship = 4,
+    destroyer = 3,
+    submarine = 3,
+    patrolBoat = 2
 };
 
 
@@ -33,11 +33,11 @@ int main() {
 	initPlayer(plyr);
 	initPlayer(comp);
 	
-	addShip(battleship, plyr);
-//	addShip(destroyer, plyr);
+ 	addShip(battleship, plyr);
+	addShip(destroyer, plyr);
  	addShip(carrier, plyr);
-// 	addShip(submarine, plyr);
-// 	addShip(patrolBoat, plyr);
+  	addShip(submarine, plyr);
+  	addShip(patrolBoat, plyr);
 	
     display(plyr);
 }
@@ -71,7 +71,7 @@ void display(struct player plyr){
     for (int i = 0; i < H; i++) {
     	printf("%c | ", 'a'+i);
     	for (int j = 0; j < W; j++)
-            printf("%c  ", plyr.oceanGrid[i * H + j]);
+            printf("%c ", plyr.oceanGrid[i * H + j]);
         printf("      ");
     	printf("%c | ", 'a'+i);
         for (int j = 0; j < W; j++)
@@ -87,14 +87,16 @@ void addShip(enum Boats ship, struct player plyr){
         bool avail = true;
 
         for(int i = 0; i < ship; i++){
-            printf("%d", avail);
             avail = plyr.oceanGrid[convertCoords(x +(i*dir), y +i*((1-dir)))] == ' ' && avail;
-           printf("%d ", avail);
-
         }
         if(avail){
             for(int i = 0; i < ship; i++){
-                plyr.oceanGrid[convertCoords(x +(i*dir), y+(i*(1-dir)))] = '0';
+                char c = '0';
+                if(i == 0 && dir == 0) c = '<';
+                else if(i == ship - 1 && dir == 0) c = '>';
+                else if(i == 0 && dir == 1) c= '^';
+                else if(i == ship-1 && dir == 1) c= 'v';
+                plyr.oceanGrid[convertCoords(x +(i*dir), y+(i*(1-dir)))] = c;
             }
         } else {
             addShip(ship, plyr);
