@@ -13,22 +13,21 @@ enum Boats {
 struct player {
 	char* oceanGrid;
 	char* targetGrid;
-	int* carrier[carrier];
-	int battleship[battleship];
+	int carrier[carrier];
+	int attleship[battleship];
 	int destroyer[destroyer];
 	int submarine[submarine];
 	int patrolBoat[patrolBoat];
 };
 
-
 const int W = 10, H = 10;
 
-void addShip(enum Boats ship, struct player plyr);
 void initPlayer(struct player plyr);
 void display(struct player plyr);
+void addShip(enum Boats ship, struct player plyr);
+void setCoords(enum Boats ship, struct player plyr, int coords[ship]);
 
 int convertCoords(int i, int j);
-void addCoords(int coords[], enum Boats ship, struct player plyr);
 
 int main() {
     srand (time(NULL));  
@@ -39,12 +38,9 @@ int main() {
 	initPlayer(plyr);
 	initPlayer(comp);
 	
-	for(int loop = 0; loop < battleship; loop++)
-      printf("%d ", plyr.battleship[loop]);
-	
-    //display(plyr);
+    display(plyr);
     printf("\n\n\n");
-    //display(comp);
+    display(comp);
 }
 
 //Initializes a player's oceanGrids
@@ -91,8 +87,7 @@ void display(struct player plyr){
 }
 
 void addShip(enum Boats ship, struct player plyr){
-        int coords[ship];
-    
+        int coords[10];
         int x = rand()%(11-ship);
         int y = rand()%(11-ship);
         int dir = rand()&1 ? 1 : 0;
@@ -111,25 +106,26 @@ void addShip(enum Boats ship, struct player plyr){
                 plyr.oceanGrid[convertCoords(x +(i*dir), y+(i*(1-dir)))] = c;
                 coords[i] = convertCoords(x +(i*dir), y+(i*(1-dir)));
             }
-            addCoords(coords, ship, plyr);
+            setCoords(ship, plyr, coords);
         } else {
             addShip(ship, plyr);
         }
 }
+void setCoords(enum Boats ship, struct player plyr, int coords[]){
+    if(ship == carrier){
+        
+    } else if (ship == battleship){
+        
+    } else if (ship == destroyer && plyr.destroyer[0] == 0){
+        plyr.destroyer[0] = 1;
+        printf("%d", plyr.destroyer[0]);
+    } else if (ship == submarine){
+        printf("Submarine");
+    } else if (ship == patrolBoat){
+        
+    } 
+}
 
 int convertCoords(int i, int j){
     return i*W + j;
-}
-void addCoords(int coords[], enum Boats ship, struct player plyr){
-    if(ship == battleship) {
-        for(int i = 0; i < ship; i++) plyr.battleship[i] = coords[i];
-    } else if (ship == carrier){
-        for(int i = 0; i < ship; i++) plyr.carrier[i] = coords[i];
-    } else if (ship == destroyer){
-        for(int i = 0; i < ship; i++) plyr.destroyer[i] = coords[i];
-    } else if (ship == submarine){
-        for(int i = 0; i < ship; i++) plyr.submarine[i] = coords[i];
-    } else if (ship == patrolBoat){
-        for(int i = 0; i < ship; i++) plyr.patrolBoat[i] = coords[i];
-    } 
 }
